@@ -12,14 +12,14 @@
         </h3>
 
         <form action="/auth/signin" method="POST" name="signup">
-            <label for="usernameEmail">Username or Email</label>
+            <label for="email">Username or Email</label>
             <div class='emailError error'></div>
-            <input type="text" id="usernameEmail" name="usernameEmail" required><br>
+            <input type="text" id="email" name="email" required><br>
             <label for="password">Password (min 6 characters)</label>
             <div class='passwordError error'></div>
             <input type="password" id="password" name="password" required pattern="^.{6,25}$"><br>
             <button>Sign In</button>
-            <meta name="csrf-token" content="<%= csrfToken %>">
+            <!-- <meta name="csrf-token" content="<%= csrfToken %>"> -->
         </form>
 
         <script>
@@ -35,7 +35,7 @@
                 // Get form data
                 const formData = new FormData(form);
                 // Get token 
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 // Clear errors
                 emailError.textContent = '';
@@ -46,7 +46,7 @@
                     const response = await fetch(form.action, {
                         method: 'post',
                         body: JSON.stringify(Object.fromEntries(formData)),
-                        headers: { 'Content-Type': 'application/json', 'CSRF-Token': token }
+                        headers: { 'Content-Type': 'application/json'}
                     });
                     // Parse response data
                     const data = await response.json();
