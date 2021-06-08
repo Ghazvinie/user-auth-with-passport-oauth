@@ -38,5 +38,5 @@ app.set('views', './public/views');
 app.set('view engine', 'ejs');
 
   app.get('/', (req, res) => {
-      res.send('Home');
+      res.render('index');
   }); 
