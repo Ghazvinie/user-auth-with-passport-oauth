@@ -13,14 +13,35 @@ function passportSetup(passport) {
                     if (userValid) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Invalid password' });
+                        return done(new Error ('Invalid password'));
                     }
                 } else {
-                    return done(null, false, { message: 'User not found' });
+                    return done(new Error ('User not found' ));
                 }
             } catch (err) {
                 console.log(err);
+                return done(err);
             }
         }
     ));
+
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(async (id, done) => {
+        try {
+            const user = await UserModel.findById({ id });
+            if (user) {
+                done(null, user);
+            } else {
+                done(new Error ('User not found'));
+            }
+        } catch (err) {
+            console.log(err);
+            done(err);
+        }
+    });
 }
+
+module.exports = passportSetup;

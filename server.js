@@ -7,6 +7,9 @@ const session = require('express-session');
 // Express app
 const app = express();
 
+// Passport config
+require('./config/passport')(passport);
+
 // Connect to DB and server listen
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then(() => {
@@ -21,6 +24,10 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
