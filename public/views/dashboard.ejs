@@ -1,0 +1,88 @@
+<%- include('partials/header'); -%>
+
+    <body>
+        <div id="dashboardHeader">
+            <h1>
+                <% if (message !='' ) { %>
+                    Welcome, <%= message %>.
+                        <% } %>
+            </h1>
+            <h2 id="passwordSuccess">This is your dashboard</h2>
+        </div>
+
+        <form action="/auth/changePassword" method="POST" name="changePassword">
+            <label for="oldPassword">Old password</label>
+            <div class='oldPasswordError error'></div>
+            <input type="password" id="oldPassword" name="oldPassword" required><br>
+            <label for="newPassword">New password (min 6 characters)</label>
+            <div class='retypeError error'></div>
+            <input type="password" id="newPassword" name="newPassword" required pattern="^.{6,25}$"><br>
+            <label for="newPassword">Retype password</label>
+            <div class='retypeError error'></div>
+            <input type="password" id="newPassword" name="newPassword" required><br>
+            <button>Sign In</button>
+            <meta name="csrf-token" content="<%= csrfToken %>">
+        </form>
+
+
+
+        <script>
+            // Get form element
+            const form = document.querySelector('form');
+
+            // Get error elements
+            const retypeError = document.querySelectorAll('.retypeError');
+            const passwordError = document.querySelector('.oldPasswordError');
+
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                // Get form data
+                const formData = new FormData(form);
+                // Get passwords
+                const passwords = formData.getAll('newPassword');
+                // Get token
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Clear errors
+                retypeError.forEach(element => element.textContent = '');
+                passwordError.textContent = '';
+
+                // Check passwords match
+                if (passwords[0] !== passwords[1]) {
+                    retypeError.forEach(element => element.textContent = 'Passwords do not match')
+                    return;
+                }
+
+                try {
+                    // POST form data
+                    const response = await fetch(form.action, {
+                        method: 'post',
+                        body: JSON.stringify(Object.fromEntries(formData)),
+                        headers: { 'Content-Type': 'application/json', 'CSRF-Token': token }
+                    });
+
+                    // Parse response data
+                    const data = await response.json();
+
+                    // Display any errors
+                    if (data.err) {
+                        passwordError.textContent = data.err.password;
+                    }
+
+                    // If success
+                    if (data.user) {
+                        const passwordSuccess = document.getElementById('passwordSuccess');
+                        // Display success
+                        passwordSuccess.innerText = 'Your password was updated!';
+                        // Reset form values
+                        document.querySelectorAll('input').forEach(element => element.value = '');
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+
+        </script>
+    </body>
+
+    </html>
