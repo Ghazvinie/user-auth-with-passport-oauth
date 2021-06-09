@@ -1,5 +1,5 @@
 const authRouter = require('express').Router();
-const { signUpGet, signUpPost, signInGet } = require('../controllers/authController');
+const { signUpGet, signUpPost, signInGet, signInPost, dashboardGet } = require('../controllers/authController');
 // const { isUserAuth } = require('../middleware/jwtMiddleware');
 // const csrfProtection = require('../middleware/csrfMiddleware');
 
@@ -9,9 +9,9 @@ authRouter.post('/signup', signUpPost);
 
 authRouter.get('/signin', signInGet);
 
-// authRouter.post('/signin', csrfProtection, signInPost);
+authRouter.post('/signin', signInPost);
 
-// authRouter.get('/dashboard', csrfProtection, isUserAuth, dashboardGet);
+authRouter.get('/dashboard', dashboardGet);
 
 // authRouter.post('/changePassword', csrfProtection, isUserAuth, changePasswordPost);
 

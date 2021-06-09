@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 function passportSetup(passport) {
 
-    passport.use(new LocalStrategy(
+    passport.use(new LocalStrategy( {usernameField: 'email'},
         async function (email, password, done) {
             try {
                 const user = await UserModel.findOne({ email });
@@ -13,10 +13,10 @@ function passportSetup(passport) {
                     if (userValid) {
                         return done(null, user);
                     } else {
-                        return done(new Error ('Invalid password'));
+                        return done(new Error('Invalid password'));
                     }
                 } else {
-                    return done(new Error ('User not found' ));
+                    return done(new Error('User not found'));
                 }
             } catch (err) {
                 console.log(err);
@@ -26,16 +26,16 @@ function passportSetup(passport) {
     ));
 
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user._id);
     });
 
     passport.deserializeUser(async (id, done) => {
         try {
-            const user = await UserModel.findById({ id });
+            const user = await UserModel.findById(id);
             if (user) {
                 done(null, user);
             } else {
-                done(new Error ('User not found'));
+                done(new Error('User not found'));
             }
         } catch (err) {
             console.log(err);

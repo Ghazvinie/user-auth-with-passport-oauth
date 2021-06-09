@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
         <form action="/auth/signin" method="POST" name="signup">
-            <label for="email">Username or Email</label>
+            <label for="email">Email</label>
             <div class='emailError error'></div>
             <input type="text" id="email" name="email" required><br>
             <label for="password">Password (min 6 characters)</label>
@@ -11,47 +11,47 @@
         </form>
 
         <script>
-            // Get form element
-            const form = document.querySelector('form');
+            // // Get form element
+            // const form = document.querySelector('form');
 
-            // Get error elements
-            const emailError = document.querySelector('.emailError');
-            const passwordError = document.querySelector('.passwordError');
+            // // Get error elements
+            // const emailError = document.querySelector('.emailError');
+            // const passwordError = document.querySelector('.passwordError');
 
-            form.addEventListener('submit', async e => {
-                e.preventDefault();
-                // Get form data
-                const formData = new FormData(form);
+            // form.addEventListener('submit', async e => {
+            //     e.preventDefault();
+            //     // Get form data
+            //     const formData = new FormData(form);
 
-                // Clear errors
-                emailError.textContent = '';
-                passwordError.textContent = '';
+            //     // Clear errors
+            //     emailError.textContent = '';
+            //     passwordError.textContent = '';
 
-                try {
-                    // POST form data and token
-                    const response = await fetch(form.action, {
-                        method: 'post',
-                        body: JSON.stringify(Object.fromEntries(formData)),
-                        headers: { 'Content-Type': 'application/json'}
-                    });
-                    // Parse response data
-                    const data = await response.json();
+            //     try {
+            //         // POST form data and token
+            //         const response = await fetch(form.action, {
+            //             method: 'post',
+            //             body: JSON.stringify(Object.fromEntries(formData)),
+            //             headers: { 'Content-Type': 'application/json'}
+            //         });
+            //         // Parse response data
+            //         const data = await response.json();
 
-                    // Display any errors
-                    if (data.err) {
-                        emailError.textContent = data.err.email;
-                        passwordError.textContent = data.err.password;
-                    }
+            //         // Display any errors
+            //         if (data.err) {
+            //             emailError.textContent = data.err.email;
+            //             passwordError.textContent = data.err.password;
+            //         }
 
-                    // Redirect user on success
-                    if (data.redirect) {
-                        location.assign(data.redirect);
-                    }
+            //         // Redirect user on success
+            //         if (data.redirect) {
+            //             location.assign(data.redirect);
+            //         }
 
-                } catch (error) {
-                    console.log(error);
-                }
-            });
+            //     } catch (error) {
+            //         console.log(error);
+            //     }
+            // });
 
         </script>
     </body>

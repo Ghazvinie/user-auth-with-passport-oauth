@@ -1,12 +1,5 @@
 <%- include('partials/header'); -%>
 
-    <body>
-        <div id="dashboardHeader">
-            <h1>
-                <% if (message !='' ) { %>
-                    Welcome, <%= message %>.
-                        <% } %>
-            </h1>
             <h2 id="passwordSuccess">This is your dashboard</h2>
         </div>
 
@@ -21,7 +14,6 @@
             <div class='retypeError error'></div>
             <input type="password" id="newPassword" name="newPassword" required><br>
             <button>Sign In</button>
-            <meta name="csrf-token" content="<%= csrfToken %>">
         </form>
 
 
