@@ -32,9 +32,7 @@
                 const formData = new FormData(form);
                 // Get passwords
                 const passwords = formData.getAll('newPassword');
-                // Get token
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+                
                 // Clear errors
                 retypeError.forEach(element => element.textContent = '');
                 passwordError.textContent = '';
