@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const authRouter = require('./routers/authRouter');
 
 // Express app
 const app = express();
@@ -22,9 +23,14 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
 app.use(session({
   secret: process.env.SECRET,
   resave: true,
-  saveUninitialized: true
-}));
-
+  saveUninitialized: true,
+  httpOnly: true,
+  cookie: {
+    maxAge: 24 * 3600 * 1000,
+    sameSite: 'lax'
+  }
+})
+);
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -37,6 +43,11 @@ app.use(express.json());
 app.set('views', './public/views');
 app.set('view engine', 'ejs');
 
-  app.get('/', (req, res) => {
-      res.render('index');
-  }); 
+// Set static files
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.use('/auth', authRouter);

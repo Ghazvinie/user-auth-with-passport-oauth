@@ -10,14 +10,3 @@
 </head>
 
 <body>
-  <nav>
-    <ul>
-      <% if (user) { %>
-      <li>Welcome, <%= user.email %></li>
-        <li><a href="/auth/signout">Log Out</a></li>
-        <% } else { %>
-        <li><a href="/">Home</a></li>
-        <% } %>
-        <li><a href="/auth/dashboard">Dashboard</a></li>
-    </ul>
-  </nav>

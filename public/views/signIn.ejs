@@ -1,16 +1,5 @@
 <%- include('partials/header'); -%>
 
-    <body>
-        <h3>
-            <% if (message !='' ) { %>
-                Welcome, <%= message %>.
-                    <% } %>
-                        <% if (notSignedIn) { %>
-                            You need to be signed in to view your dashboard. <br><br>
-                            <% } %>
-                                Please enter your details to sign in...
-        </h3>
-
         <form action="/auth/signin" method="POST" name="signup">
             <label for="email">Username or Email</label>
             <div class='emailError error'></div>
@@ -19,7 +8,6 @@
             <div class='passwordError error'></div>
             <input type="password" id="password" name="password" required pattern="^.{6,25}$"><br>
             <button>Sign In</button>
-            <!-- <meta name="csrf-token" content="<%= csrfToken %>"> -->
         </form>
 
         <script>
@@ -34,8 +22,6 @@
                 e.preventDefault();
                 // Get form data
                 const formData = new FormData(form);
-                // Get token 
-                // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 // Clear errors
                 emailError.textContent = '';
