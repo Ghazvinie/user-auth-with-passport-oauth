@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 function passportSetup(passport) {
 
-    passport.use(new LocalStrategy( {usernameField: 'email'},
+    passport.use(new LocalStrategy({ usernameField: 'email' },
         async function (email, password, done) {
             try {
                 const user = await UserModel.findOne({ email });
@@ -44,4 +44,12 @@ function passportSetup(passport) {
     });
 }
 
-module.exports = passportSetup;
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.send('You cannot view this page');
+    }
+}
+
+module.exports =  passportSetup ;
