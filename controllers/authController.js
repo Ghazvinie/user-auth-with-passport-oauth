@@ -29,7 +29,7 @@ function signInGet(req, res) {
     // Reset notSignedIn on req.session
     req.session.notSignedIn = false;
     // Render signIn view
-    res.render('signIn', { notSignedIn });
+    res.render('signIn', { notSignedIn, message: req.flash('error') });
 }
 
 function signInPost(req, res, next) {

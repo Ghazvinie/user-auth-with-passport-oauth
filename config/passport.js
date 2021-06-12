@@ -13,13 +13,12 @@ function passportSetup(passport) {
                     if (userValid) {
                         return done(null, user);
                     } else {
-                        return done(false, null, {message : 'Invalid password'});
+                        return done(false, null, { message: 'Invalid password' });
                     }
                 } else {
-                    return done(new Error('User not found'));
+                    return done(false, null, { message: 'Email not registered' });
                 }
             } catch (err) {
-                console.log(err);
                 return done(err);
             }
         }
@@ -38,10 +37,9 @@ function passportSetup(passport) {
                 done(new Error('User not found'));
             }
         } catch (err) {
-            console.log(err);
             done(err);
         }
     });
 }
 
-module.exports =  passportSetup ;
+module.exports = passportSetup;
