@@ -13,7 +13,7 @@ function passportSetup(passport) {
                     if (userValid) {
                         return done(null, user);
                     } else {
-                        return done(new Error('Invalid password'));
+                        return done(false, null, {message : 'Invalid password'});
                     }
                 } else {
                     return done(new Error('User not found'));
@@ -42,14 +42,6 @@ function passportSetup(passport) {
             done(err);
         }
     });
-}
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        res.send('You cannot view this page');
-    }
 }
 
 module.exports =  passportSetup ;

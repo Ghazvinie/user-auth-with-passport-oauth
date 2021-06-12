@@ -3,7 +3,7 @@ const UserModel = require('../models/userSchema');
 const errorHandler = require('../utils/errorHandler');
 
 function signUpGet(req, res) {
-    res.render('signUp');
+    res.status(200).render('signUp');
 }
 
 // Process sign up POST form 
@@ -24,17 +24,33 @@ async function signUpPost(req, res) {
 }
 
 function signInGet(req, res) {
-    res.render('signIn');
+    // Set notSignedIn to false for any falsey value
+    const notSignedIn = req.session.notSignedIn ? true : false;
+    // Reset notSignedIn on req.session
+    req.session.notSignedIn = false;
+    // Render signIn view
+    res.render('signIn', { notSignedIn });
 }
 
-async function signInPost(req, res, next) {
+function signInPost(req, res, next) {
     passport.authenticate('local', {
         failureRedirect: 'signIn',
         successRedirect: 'dashboard',
-    }) (req, res, next);
+        failureFlash: true
+    })(req, res, next);
 }
 
-function dashboardGet(req, res){
+function dashboardGet(req, res) {
     res.render('dashboard');
 }
-module.exports = { signUpGet, signUpPost, signInGet, signInPost, dashboardGet };
+
+// Sign out GET
+function signOutGet(req, res) {
+    // Clear session, jwt cookie and locals store of user
+    req.session = null;
+    res.clearCookie('jwt');
+    res.locals.user = '';
+    res.redirect('/');
+}
+
+module.exports = { signUpGet, signUpPost, signInGet, signInPost, dashboardGet, signOutGet };

@@ -1,16 +1,28 @@
 <%- include('partials/header'); -%>
 
-        <form action="/auth/signin" method="POST" name="signup">
-            <label for="email">Email</label>
-            <div class='emailError error'></div>
-            <input type="text" id="email" name="email" required><br>
-            <label for="password">Password (min 6 characters)</label>
-            <div class='passwordError error'></div>
-            <input type="password" id="password" name="password" required pattern="^.{6,25}$"><br>
-            <button>Sign In</button>
-        </form>
+<%= message %>
 
-        <script>
+    <h3>
+        <% if (user !='' ) { %>
+            Welcome, <%= user.email %>.
+                <% } %>
+                    <% if (notSignedIn) { %>
+                        You need to be signed in to view your dashboard. <br><br>
+                        <% } %>
+                            Please enter your details to sign in...
+    </h3>
+
+    <form action="/auth/signin" method="POST" name="signup">
+        <label for="email">Email</label>
+        <div class='emailError error'></div>
+        <input type="text" id="email" name="email" required><br>
+        <label for="password">Password (min 6 characters)</label>
+        <div class='passwordError error'></div>
+        <input type="password" id="password" name="password" required pattern="^.{6,25}$"><br>
+        <button>Sign In</button>
+    </form>
+
+    <script>
             // // Get form element
             // const form = document.querySelector('form');
 
@@ -53,7 +65,7 @@
             //     }
             // });
 
-        </script>
+    </script>
     </body>
 
 

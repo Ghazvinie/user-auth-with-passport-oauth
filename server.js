@@ -3,13 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const flash = require('connect-flash');
 const authRouter = require('./routers/authRouter');
+const { setUser } = require('./middleware/authMiddleware');
 
 // Express app
 const app = express();
-
-// Passport config
-require('./config/passport')(passport);
 
 // Connect to DB and server listen
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -18,6 +17,23 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
     app.listen(3000, () => console.log('Server is listening on port 3000...'));
   })
   .catch(error => console.log('Database connection error' + error));
+
+// Set view engine
+app.set('views', './public/views');
+app.set('view engine', 'ejs');
+
+// Set static files
+app.use(express.static(__dirname + '/public'));
+
+// Middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Connect flash
+app.use(flash());
+
+// Passport config
+require('./config/passport')(passport);
 
 // Express session
 app.use(session({
@@ -35,16 +51,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-// Set view engine
-app.set('views', './public/views');
-app.set('view engine', 'ejs');
-
-// Set static files
-app.use(express.static(__dirname + '/public'));
+app.use('*', setUser);
 
 app.get('/', (req, res) => {
   res.render('index');
