@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
     <h3>
-        <% if (user !='' ) { %>
+        <% if (locals.user != null ) { %>
             Welcome, <%= user.email %>.
                 <% } %>
                     <% if (notSignedIn) { %>

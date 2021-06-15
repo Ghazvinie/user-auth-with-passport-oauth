@@ -29,7 +29,7 @@ function signInGet(req, res) {
     // Reset notSignedIn on req.session
     req.session.notSignedIn = false;
     // Render signIn view
-    res.render('signIn', { notSignedIn, message: req.flash('error') });
+    res.render('signIn', { notSignedIn, message: req.flash('error')});
 }
 
 function signInPost(req, res, next) {
@@ -40,17 +40,22 @@ function signInPost(req, res, next) {
     })(req, res, next);
 }
 
+function googleGet(req, res){
+res.send('hello')
+}
+
 function dashboardGet(req, res) {
+    if (req.user) {
+        res.locals.user = req.user;
+    }
     res.render('dashboard');
 }
 
 // Sign out GET
 function signOutGet(req, res) {
-    // Clear session, jwt cookie and locals store of user
-    req.session = null;
-    res.clearCookie('jwt');
-    res.locals.user = '';
+    // Clear session, and locals store of user
+    req.logout();
     res.redirect('/');
 }
 
-module.exports = { signUpGet, signUpPost, signInGet, signInPost, dashboardGet, signOutGet };
+module.exports = { signUpGet, signUpPost, signInGet, signInPost, googleGet, dashboardGet, signOutGet };

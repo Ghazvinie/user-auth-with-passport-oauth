@@ -1,6 +1,5 @@
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        res.locals.user = req.user;
         next();
     } else {
         req.session.notSignedIn = true;
@@ -9,13 +8,4 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
-function setUser(req, res, next) {
-    if (!req.isAuthenticated()) {
-        res.locals.user = '';
-        return next();
-    }
-    res.locals.user = req.user;
-    next();
-}
-
-module.exports = { ensureAuthenticated, setUser };
+module.exports = ensureAuthenticated;

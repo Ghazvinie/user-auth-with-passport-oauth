@@ -4,7 +4,7 @@
         <h3>
             Please enter your details to register as a new user...
         </h3>
-        <form action="/auth/signup" method="POST" name="signup">
+        <form name="signup">
             <label for="email">Email</label>
             <div class='emailError error'></div>
             <input type="email" id="email" name="email" required><br>
@@ -23,6 +23,8 @@
 
         // Get error elements
         const emailError = document.querySelector('.emailError');
+        const retypeError = document.querySelectorAll('.retypeError');
+
 
 
         form.addEventListener('submit', async e => {
@@ -35,10 +37,11 @@
 
             // Clear errors
             emailError.textContent = '';
+            retypeError.forEach(element => element.textContent = '');
 
             // Check passwords match
             if (passwords[0] !== passwords[1]) {
-                const retypeError = document.querySelectorAll('.retypeError');
+
                 retypeError.forEach(element => element.textContent = 'Passwords do not match')
                 return;
             }
@@ -48,7 +51,7 @@
                 const response = await fetch(form.action, {
                     method: 'post',
                     body: JSON.stringify(Object.fromEntries(formData)),
-                    headers: { 'Content-Type': 'application/json'}
+                    headers: { 'Content-Type': 'application/json' }
                 });
                 // Parse response data
                 const data = await response.json();

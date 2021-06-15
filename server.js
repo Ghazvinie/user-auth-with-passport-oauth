@@ -5,7 +5,6 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('connect-flash');
 const authRouter = require('./routers/authRouter');
-const { setUser } = require('./middleware/authMiddleware');
 
 // Express app
 const app = express();
@@ -51,7 +50,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('*', setUser);
+// app.use('*', setUser);
 
 app.get('/', (req, res) => {
   res.render('index');
