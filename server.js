@@ -31,6 +31,10 @@ app.use(express.json());
 // Connect flash
 app.use(flash());
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Passport config
 require('./config/passport')(passport);
 
@@ -46,11 +50,6 @@ app.use(session({
   }
 })
 );
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-// app.use('*', setUser);
 
 app.get('/', (req, res) => {
   res.render('index');

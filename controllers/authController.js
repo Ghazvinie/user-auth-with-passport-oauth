@@ -29,7 +29,7 @@ function signInGet(req, res) {
     // Reset notSignedIn on req.session
     req.session.notSignedIn = false;
     // Render signIn view
-    res.render('signIn', { notSignedIn, message: req.flash('error')});
+    res.render('signIn', { notSignedIn, message: req.flash('error') });
 }
 
 function signInPost(req, res, next) {
@@ -40,9 +40,34 @@ function signInPost(req, res, next) {
     })(req, res, next);
 }
 
-function googleGet(req, res){
-res.send('hello')
+function googleGet(req, res, next) {
+    passport.authenticate('google', {
+        scope: ['profile', 'email']
+    })(req, res, next);
 }
+
+function googleRedirect(req, res) {
+    passport.authenticate('google',
+        { failureRedirect: '/auth/signin', 
+    }), function (req, res) {
+    setTimeout(() => {
+        req.session.save(() => {
+            res.redirect('/success');
+          })
+    }, 10000
+
+    )
+
+    };
+
+
+    // passport.authenticate('google', { failureRedirect: '/' }),
+    //     function(req, res) {
+    //       // Successful authentication, redirect home.
+    //       res.redirect('/dashboard');
+    // }
+}
+
 
 function dashboardGet(req, res) {
     if (req.user) {
@@ -58,4 +83,4 @@ function signOutGet(req, res) {
     res.redirect('/');
 }
 
-module.exports = { signUpGet, signUpPost, signInGet, signInPost, googleGet, dashboardGet, signOutGet };
+module.exports = { signUpGet, signUpPost, signInGet, signInPost, googleGet, googleRedirect, dashboardGet, signOutGet };

@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email required'],
         unique: [true, 'Email already used'],
+        lowercase: true,
         validate: [isEmail, 'Invalid email']
     },
 
@@ -17,11 +18,18 @@ const UserSchema = new mongoose.Schema({
         minLength: [6, 'Password must be at least 6 characters long'],
         maxLength: [25, 'Password length exceeded']
     },
+    googleID: {
+        type: String
+    }
 });
 
 UserSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    if (this.password){
+        this.password = await bcrypt.hash(this.password, salt);
+    } else {
+        next();
+    }
     next();
 });
 
