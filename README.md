@@ -4,7 +4,7 @@
 
 The app allows a user to sign up and access a protected resource.
 - User signs up with an email and password. Password is hashed and along with other details stored to the database. 
-- The user can also sign up and sign in with their Google account .
+- The user can also sign up and sign in with their Google account.
 - On successful user authentication, the user is then authorised to view dashboard.
 - The app uses Passport strategies to implement this process.
 
