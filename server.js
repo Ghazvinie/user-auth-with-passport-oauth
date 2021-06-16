@@ -51,8 +51,10 @@ app.use(passport.session());
 // Passport config
 require('./config/passport')(passport);
 
+// Root route
 app.get('/', (req, res) => {
   res.render('index');
 });
 
+// Auth routes
 app.use('/auth', authRouter);
