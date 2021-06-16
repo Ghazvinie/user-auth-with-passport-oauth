@@ -16,19 +16,19 @@ authRouter.post('/signin', signInPost);
 
 authRouter.get('/google', googleGet);
 
-authRouter.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/'}),
-  function(req, res) {
-    // Explicitly save the session before redirecting!
+// authRouter.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/'}),
+//   function(req, res) {
+//     // Explicitly save the session before redirecting!
+//     console.log(req.user);
+//     // setTimeout(() => {
+//     //     req.session.save(() => {
+//             res.redirect('./dashboard');
+//     //       })
+//     // }, 10000)
 
-    setTimeout(() => {
-        req.session.save(() => {
-            res.redirect('./dashboard');
-          })
-    }, 10000)
+//   });
 
-  });
-
-// authRouter.get('/google/redirect', googleRedirect);
+authRouter.get('/google/redirect', googleRedirect);
 
 // authRouter.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/' }),
 // function(req, res) {
@@ -40,7 +40,7 @@ authRouter.get('/google/redirect', passport.authenticate('google', { failureRedi
 //     res.send('hello')
 // })
 
-authRouter.get('/google/dashboard', ensureAuthenticated, dashboardGet);
+authRouter.get('/dashboard', ensureAuthenticated, dashboardGet);
 
 authRouter.get('/signout', signOutGet);
 

@@ -3,8 +3,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const UserModel = require('../models/userSchema');
 const bcrypt = require('bcrypt');
 
-
-
 function passportSetup(passport) {
 
     passport.use(new LocalStrategy({ usernameField: 'email' },
@@ -26,60 +24,29 @@ function passportSetup(passport) {
             }
         }
     ));
-    // passport.use(new GoogleStrategy({
-    //     //options for google strategy
-    //     clientID: process.env.GOOGLE_CLIENT_ID,
-    //     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //     callbackURL: '/auth/google/redirect'
-    // }, (accessToken, refreshToken, profile, done) => {
-    //     console.log(profile)
-    //     done(null, profile);
-    //     // UserModel.findOne({
-    //     //     googleID: profile.id
-    //     // }).then((userFound) => {
-    //     //     if (userFound) {
-    //     //         console.log(`User already exists`);
-    //     //         done(null, userFound);
-    //     //     } else {
-    //     //         new UserModel({
-    //     //             username: profile.displayName,
-    //     //             googleID: profile.id,
-    //     //             thumbnail: profile._json.picture
-    //     //         }).save()
-    //     //             .then((newUser) => {
-    //     //                 console.log(`New user`);
-    //     //                 done(null, newUser);
-    //     //             });
-
-    //     //     }
-    //     // });
-    // }
-    // )
-    // );
 
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/redirect'
+        callbackURL: '/auth/google/redirect',
     },
         async function (accessToken, refreshToken, profile, done) {
             try {
                 const userExists = await UserModel.findOne({ googleID: profile.id });
-                    if (userExists) {
-                        done(null, userExists, {message: 'User already registered'});
-                    } else {
-                        console.log('user does not exist');
-                        const user = new UserModel({
-                            email: profile._json.email,
-                            googleID: profile.id
-                        });
-                        const newUser = await user.save({ validateBeforeSave: false });
-                        done(null, newUser, {message: 'user registered'});
-                    }                
+                if (userExists) {
+                    done(null, userExists);
+                } else {
+                    console.log('user does not exist');
+                    const user = new UserModel({
+                        email: profile._json.email,
+                        googleID: profile.id
+                    });
+                    const newUser = await user.save({ validateBeforeSave: false });
+                    done(null, newUser);
+                }
             } catch (err) {
                 console.log(err);
             }
-
         }
     ));
 
@@ -99,7 +66,6 @@ function passportSetup(passport) {
             done(err);
         }
     });
-
 }
 
 module.exports = passportSetup;

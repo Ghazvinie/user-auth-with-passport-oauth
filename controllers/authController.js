@@ -46,26 +46,10 @@ function googleGet(req, res, next) {
     })(req, res, next);
 }
 
-function googleRedirect(req, res) {
+function googleRedirect(req, res, next) {
     passport.authenticate('google',
-        { failureRedirect: '/auth/signin', 
-    }), function (req, res) {
-    setTimeout(() => {
-        req.session.save(() => {
-            res.redirect('/success');
-          })
-    }, 10000
-
-    )
-
-    };
-
-
-    // passport.authenticate('google', { failureRedirect: '/' }),
-    //     function(req, res) {
-    //       // Successful authentication, redirect home.
-    //       res.redirect('/dashboard');
-    // }
+        { failureRedirect: '/auth/signin', successRedirect: '/auth/dashboard' 
+    })(req, res, next);
 }
 
 

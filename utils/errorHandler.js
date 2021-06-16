@@ -14,10 +14,6 @@ function errorHandler(error) {
         errorObject[key] = value[0];
     }
 
-    if (error.message = 'Generating JWT failed'){
-        errorObject.JWTError = error.message;
-    }
-
     return errorObject;
 }
 
