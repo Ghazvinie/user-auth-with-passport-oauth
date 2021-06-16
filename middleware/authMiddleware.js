@@ -1,4 +1,5 @@
-function ensureAuthenticated(req, res, next) {
+// Checks user is authenticated, if so can continue on, if not then redirected to dashboard
+function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
@@ -8,4 +9,4 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
-module.exports = ensureAuthenticated;
+module.exports = ensureAuth;

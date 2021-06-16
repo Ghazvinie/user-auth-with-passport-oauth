@@ -1,3 +1,4 @@
+// Basic error handling
 function errorHandler(error) {
     let errorObject = { email: '', password: '', username: '' };
     if (error.message === 'Incorrect username or email') {

@@ -1,6 +1,6 @@
 const authRouter = require('express').Router();
 const { signUpGet, signUpPost, signInGet, signInPost, googleGet, googleRedirect, dashboardGet, signOutGet } = require('../controllers/authController');
-const ensureAuthenticated  = require('../middleware/authMiddleware');
+const ensureAuth  = require('../middleware/authMiddleware');
 
 authRouter.get('/signup', signUpGet);
 
@@ -14,7 +14,8 @@ authRouter.get('/google', googleGet);
 
 authRouter.get('/google/redirect', googleRedirect);
 
-authRouter.get('/dashboard', ensureAuthenticated, dashboardGet);
+// Checks user is authorised to view dashboard
+authRouter.get('/dashboard', ensureAuth, dashboardGet);
 
 authRouter.get('/signout', signOutGet);
 
