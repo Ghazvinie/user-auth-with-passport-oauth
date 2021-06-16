@@ -3,6 +3,7 @@ function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
+        // Set notSignedIn to true so that message is displayed to user 
         req.session.notSignedIn = true;
         res.redirect('/auth/signin');
         return;
