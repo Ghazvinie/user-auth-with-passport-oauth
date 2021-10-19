@@ -1,35 +1,35 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const UserModel = require('../models/userSchema');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 
 function passportSetup(passport) {
 
-    // Local Strategy
-    passport.use(new LocalStrategy({ usernameField: 'email' },
-        async function (email, password, done) {
-            try {
-                // Checks if user already exists in database
-                const user = await UserModel.findOne({ email });
-                if (user) {
-                    // Checks passwords match
-                    const userValid = await bcrypt.compare(password, user.password);
-                    if (userValid) {
-                        return done(null, user);
-                    } else {
-                        // Password invalid
-                        return done(false, null, { message: 'Invalid password' });
-                    }
-                } else {
-                    // User is not registered
-                    return done(false, null, { message: 'Email not registered' });
-                }
-            } catch (err) {
-                return done(err);
-            }
-        }
-    ));
+    // // Local Strategy
+    // passport.use(new LocalStrategy({ usernameField: 'email' },
+    //     async function (email, password, done) {
+    //         try {
+    //             // Checks if user already exists in database
+    //             const user = await UserModel.findOne({ email });
+    //             if (user) {
+    //                 // Checks passwords match
+    //                 const userValid = await bcrypt.compare(password, user.password);
+    //                 if (userValid) {
+    //                     return done(null, user);
+    //                 } else {
+    //                     // Password invalid
+    //                     return done(false, null, { message: 'Invalid password' });
+    //                 }
+    //             } else {
+    //                 // User is not registered
+    //                 return done(false, null, { message: 'Email not registered' });
+    //             }
+    //         } catch (err) {
+    //             return done(err);
+    //         }
+    //     }
+    // ));
 
     // Google strategy
     passport.use(new GoogleStrategy({

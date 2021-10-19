@@ -1,7 +1,7 @@
 form{
+  padding: 2rem;
     width: 400px;
     margin: 0 auto;
-    padding: 30px;
     box-shadow: 1px 2px 3px rgba(0,0,0,0.1);
     border-radius: 10px;
     background: white;
@@ -20,7 +20,7 @@ form{
   button{
     margin-top: 30px;
     border-radius: 10px;
-    background: #140b96;
+    background: black;
     border:0;
     text-transform: uppercase;
     font-weight: 700;
@@ -84,4 +84,5 @@ form{
   }
   .google {
     background: rgb(235, 141, 1);
+    margin-left: 2rem;
   }
