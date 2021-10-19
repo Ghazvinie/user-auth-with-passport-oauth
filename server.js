@@ -58,9 +58,9 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('*', (req, res) => {
-  res.render('index');
-});
-
 // Auth routes
 app.use('/auth', authRouter);
+
+app.get('*', (req, res) => {
+  res.redirect('/');
+});
