@@ -9,10 +9,8 @@ The app allows a user to sign up and access a protected resource.
 - The app uses Passport strategies to implement this process.
 
 ### Built with:
-- JavaScript
-- NodeJs 16.1.0 / Express 4.17.1
+- NodeJs 14.18.1 / Express 4.17.1
 - Passport 0.4.1
-- HTML / CSS
 - MongoDB / Mongoose 5.12.12
 
 ### To run:
